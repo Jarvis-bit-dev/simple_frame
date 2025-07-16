@@ -99,7 +99,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	..\..\..\plug-in\post_build.bat
+	..\..\..\plug-in\entry.bat
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)

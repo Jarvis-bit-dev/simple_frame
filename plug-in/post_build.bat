@@ -4,9 +4,6 @@ setlocal enableextensions
 REM 强制切换工作目录为脚本目录，防止Eclipse下相对路径错误
 cd /d "%~dp0"
 
-REM 设置编码
-chcp 65001 >nul
-
 
 REM 获取日期和时间
 for /f "tokens=2 delims==." %%a in ('"wmic os get localdatetime /value"') do set ldt=%%a
