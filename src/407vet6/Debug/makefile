@@ -35,34 +35,41 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := 407vet6
+BUILD_ARTIFACT_NAME := simple_frame
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-407vet6.elf \
+simple_frame.elf \
 
 MAP_FILES += \
-407vet6.map \
+simple_frame.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-407vet6.list \
+simple_frame.list \
+
+OBJCOPY_HEX += \
+simple_frame.hex \
+
+OBJCOPY_BIN += \
+simple_frame.bin \
 
 
 # All Target
-all: main-build
+all:
+	+@$(MAKE) --no-print-directory main-build && $(MAKE) --no-print-directory post-build
 
 # Main-build Target
-main-build: 407vet6.elf secondary-outputs
+main-build: simple_frame.elf secondary-outputs
 
 # Tool invocations
-407vet6.elf 407vet6.map: $(OBJS) $(USER_OBJS) C:\Users\Jarvis\Desktop\simple_frame\src\407vet6\STM32F407VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "407vet6.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Jarvis\Desktop\simple_frame\src\407vet6\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="407vet6.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+simple_frame.elf simple_frame.map: $(OBJS) $(USER_OBJS) C:\Users\Jarvis\Desktop\simple_frame\src\407vet6\STM32F407VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "simple_frame.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Jarvis\Desktop\simple_frame\src\407vet6\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="simple_frame.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -71,17 +78,31 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-407vet6.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "407vet6.list"
+simple_frame.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "simple_frame.list"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+simple_frame.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "simple_frame.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+simple_frame.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "simple_frame.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) 407vet6.elf 407vet6.list 407vet6.map default.size.stdout
+	-$(RM) default.size.stdout simple_frame.bin simple_frame.elf simple_frame.hex simple_frame.list simple_frame.map
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+post-build:
+	..\..\..\plug-in\post_build.bat
+	-@echo ' '
+
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
@@ -90,6 +111,6 @@ fail-specified-linker-script-missing:
 warn-no-linker-script-specified:
 	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
 
-.PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified
+.PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified post-build
 
 -include ../makefile.targets

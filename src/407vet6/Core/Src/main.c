@@ -113,6 +113,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  a++;
+
   }
   /* USER CODE END 3 */
 }
@@ -197,3 +198,8 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+
+
+
+
