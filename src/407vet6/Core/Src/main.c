@@ -18,13 +18,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
-#include "test.h"
+#include "entry.h"
+#include "../../handle/test/test.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,7 +36,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-int a = 0;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -99,10 +100,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_TIM6_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  printf("this is test\r\n");
-  printf("%f\r\n",1.1);
-  xxxx();
+  HAL_TIM_Base_Start_IT(&htim6);
+  HAL_TIM_Base_Start_IT(&htim7);
+  sf_entry();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -112,8 +115,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  a++;
-
+	  sf_loop();
+	  extern uint8_t g_flag_shell_received;
+	  extern void shell_process_input(char *input);
+	  extern uint8_t RxProBuf[1024];
+	  if(1 == g_flag_shell_received)
+	  {
+		  //解析
+		  g_flag_shell_received = 0;
+		  shell_process_input(RxProBuf);
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -198,8 +209,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-
-
-
-

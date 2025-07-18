@@ -195,6 +195,22 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM
+  
+  
+  
+   .var_table :
+  {
+    __start_var_table = .;
+    KEEP(*(.var_table))
+    __stop_var_table = .;
+  } >FLASH
+
+  .func_table :
+  {
+    __start_func_table = .;
+    KEEP(*(.func_table))
+    __stop_func_table = .;
+  } >FLASH
 
   /* Remove information from the compiler libraries */
   /DISCARD/ :
