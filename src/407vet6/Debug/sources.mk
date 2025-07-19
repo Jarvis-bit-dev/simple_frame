@@ -28,6 +28,7 @@ Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \
 handle/sf_app \
+handle/sf_content/sf_protocol \
 handle/sf_content/sf_scheduler \
 handle/sf_content/sf_shell \
 handle/test \

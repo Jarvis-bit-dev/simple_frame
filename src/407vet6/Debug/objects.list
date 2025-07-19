@@ -1,3 +1,4 @@
+"./Core/Src/dma.o"
 "./Core/Src/gpio.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
@@ -25,6 +26,7 @@
 "./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o"
 "./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o"
 "./handle/sf_app/entry.o"
+"./handle/sf_content/sf_protocol/sf_protovol.o"
 "./handle/sf_content/sf_scheduler/schedule.o"
 "./handle/sf_content/sf_shell/function_register.o"
 "./handle/sf_content/sf_shell/shell_logic.o"

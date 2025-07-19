@@ -197,6 +197,15 @@ SECTIONS
   } >RAM
   
   
+	  .shell_var :
+	{
+	    KEEP(*(.shell_var))
+	} >FLASH
+	
+	.shell_func :
+	{
+	    KEEP(*(.shell_func))
+	} >FLASH
   
 
   /* Remove information from the compiler libraries */

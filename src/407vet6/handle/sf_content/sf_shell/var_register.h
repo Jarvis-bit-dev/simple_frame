@@ -10,34 +10,27 @@
 
 #include <stdint.h>
 
-// 支持的变量类型
 typedef enum {
     VAR_TYPE_INT,
     VAR_TYPE_FLOAT,
+    VAR_TYPE_STRING,
     VAR_TYPE_BOOL,
-    VAR_TYPE_UNKNOWN
 } var_type_t;
 
-// 变量信息结构体
 typedef struct {
     const char *name;
     void *addr;
     var_type_t type;
 } var_entry_t;
 
-#define MAX_VAR_NUM 64
+void shell_register_variable(const char *name, void *addr, var_type_t type);
+int shell_get_variable(const char *name, char *output, int max_len);
+int shell_set_variable(const char *name, const char *value_str);
+void shell_var_list(void);
 
-// 注册接口（内部使用宏包装）
-int shell_register_var(const char *name, void *addr, var_type_t type);
-
-// 变量操作接口
-void shell_set_var(const char *name, const char *value);
-void shell_get_var(const char *name);
-void shell_list_vars(void);
-
-// 注册宏定义（简化调用）
-#define REGISTER_VAR(var, type_enum) \
-    shell_register_var(#var, (void *)&var, type_enum)
+// 宏注册变量
+#define SHELL_VAR_REGISTER(var, type) \
+    shell_register_variable(#var, &var, type)
 
 
 

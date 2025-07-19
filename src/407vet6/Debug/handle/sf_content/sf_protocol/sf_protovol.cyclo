@@ -1,0 +1,5 @@
+../handle/sf_content/sf_protocol/sf_protovol.c:13:5:uart_manager_register	4
+../handle/sf_content/sf_protocol/sf_protovol.c:31:5:uart_manager_unregister	3
+../handle/sf_content/sf_protocol/sf_protovol.c:45:5:uart_manager_clear	3
+../handle/sf_content/sf_protocol/sf_protovol.c:58:6:uart_manager_idle_callback	3
+../handle/sf_content/sf_protocol/sf_protovol.c:73:6:uart_manager_poll	4

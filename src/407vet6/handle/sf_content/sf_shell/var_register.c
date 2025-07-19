@@ -5,17 +5,18 @@
  *      Author: Jarvis
  */
 #include "var_register.h"
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#define MAX_VAR_COUNT 64
 
-static var_entry_t var_table[MAX_VAR_NUM];
+static var_entry_t var_table[MAX_VAR_COUNT];
 static int var_count = 0;
 
-int shell_register_var(const char *name, void *addr, var_type_t type) {
-    if (var_count >= MAX_VAR_NUM) return -1;
-    var_table[var_count++] = (var_entry_t){ name, addr, type };
-    return 0;
+void shell_register_variable(const char *name, void *addr, var_type_t type) {
+    if (var_count < MAX_VAR_COUNT) {
+        var_table[var_count++] = (var_entry_t){name, addr, type};
+    }
 }
 
 static var_entry_t *find_var(const char *name) {
@@ -27,58 +28,46 @@ static var_entry_t *find_var(const char *name) {
     return NULL;
 }
 
-void shell_set_var(const char *name, const char *value) {
-    var_entry_t *entry = find_var(name);
-    if (!entry) {
-        printf("Variable '%s' not found\n", name);
-        return;
-    }
+int shell_get_variable(const char *name, char *output, int max_len) {
+    var_entry_t *var = find_var(name);
+    if (!var) return -1;
 
-    switch (entry->type) {
+    switch (var->type) {
         case VAR_TYPE_INT:
-            *(int *)entry->addr = atoi(value);
-            break;
+            snprintf(output, max_len, "%d", *(int *)var->addr); break;
         case VAR_TYPE_FLOAT:
-            *(float *)entry->addr = strtof(value, NULL);
-            break;
+            snprintf(output, max_len, "%f", *(float *)var->addr); break;
+        case VAR_TYPE_STRING:
+            snprintf(output, max_len, "%s", (char *)var->addr); break;
         case VAR_TYPE_BOOL:
-            *(int *)entry->addr = (strcmp(value, "true") == 0 || strcmp(value, "1") == 0) ? 1 : 0;
-            break;
+            snprintf(output, max_len, "%s", *(int *)var->addr ? "true" : "false"); break;
         default:
-            printf("Unsupported type\n");
-            return;
+            return -2;
     }
-
-    printf("Set %s = %s\n", name, value);
+    return 0;
 }
 
-void shell_get_var(const char *name) {
-    var_entry_t *entry = find_var(name);
-    if (!entry) {
-        printf("Variable '%s' not found\n", name);
-        return;
-    }
+int shell_set_variable(const char *name, const char *value_str) {
+    var_entry_t *var = find_var(name);
+    if (!var) return -1;
 
-    printf("%s = ", name);
-    switch (entry->type) {
+    switch (var->type) {
         case VAR_TYPE_INT:
-            printf("%d\n", *(int *)entry->addr);
-            break;
+            *(int *)var->addr = atoi(value_str); break;
         case VAR_TYPE_FLOAT:
-            printf("%.3f\n", *(float *)entry->addr);
-            break;
+            *(float *)var->addr = atof(value_str); break;
+        case VAR_TYPE_STRING:
+            strncpy((char *)var->addr, value_str, strlen(value_str)+1); break;
         case VAR_TYPE_BOOL:
-            printf("%s\n", *(int *)entry->addr ? "true" : "false");
-            break;
+            *(int *)var->addr = (strcmp(value_str, "true") == 0); break;
         default:
-            printf("Unsupported type\n");
-            break;
+            return -2;
     }
+    return 0;
 }
-
-void shell_list_vars(void) {
+void shell_var_list(void) {
     printf("Registered variables:\n");
     for (int i = 0; i < var_count; i++) {
-        printf("  %s\n", var_table[i].name);
+        printf(" - %s\n", var_table[i].name);
     }
 }

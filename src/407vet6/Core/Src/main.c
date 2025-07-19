@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -26,7 +27,8 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "entry.h"
-#include "../../handle/test/test.h"
+#include "string.h"
+#include "sf_protocol.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,12 +101,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim6);
-  HAL_TIM_Base_Start_IT(&htim7);
+
   sf_entry();
   /* USER CODE END 2 */
 
@@ -116,16 +118,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  sf_loop();
-	  extern uint8_t g_flag_shell_received;
-	  extern void shell_input_parse(char *input);
-	  extern uint8_t RxProBuf[1024];
-	  if(1 == g_flag_shell_received)
-	  {
-		  //解析
-		  g_flag_shell_received = 0;
-		  shell_input_parse(RxProBuf);
-		  memset(RxProBuf,0,1024);
-	  }
+	  //uart_manager_poll();
   }
   /* USER CODE END 3 */
 }

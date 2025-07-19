@@ -1,6 +1,7 @@
-../handle/sf_app/entry.c:14:13:sf_test	1
-../handle/sf_app/entry.c:23:16:sf_hardware_init	1
-../handle/sf_app/entry.c:32:16:sf_software_init	1
-../handle/sf_app/entry.c:39:6:sf_entry	1
-../handle/sf_app/entry.c:55:13:sf_run	2
-../handle/sf_app/entry.c:63:6:sf_loop	1
+../handle/sf_app/entry.c:24:5:test_func	1
+../handle/sf_app/entry.c:30:6:shell_uart_parser	1
+../handle/sf_app/entry.c:45:16:sf_hardware_init	1
+../handle/sf_app/entry.c:60:16:sf_software_init	1
+../handle/sf_app/entry.c:82:6:sf_entry	1
+../handle/sf_app/entry.c:93:13:sf_run	2
+../handle/sf_app/entry.c:106:6:sf_loop	1

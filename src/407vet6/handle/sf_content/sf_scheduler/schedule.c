@@ -91,7 +91,7 @@ void task_execute(uint8_t list_id) {
         if (node->used && node->remaining_count != 0) {
             if (tick_elapsed(now, node->next_run_tick) >= 0) {
                 node->callback(node->arg);
-                if (node->remaining_count != 0xFFFFFFFF) {
+                if (node->remaining_count != TASK_FOREVER) {
                     node->remaining_count--;
                 }
                 node->next_run_tick += node->period;

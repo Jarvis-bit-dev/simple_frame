@@ -1,2 +1,1 @@
-../handle/sf_content/sf_shell/shell_logic.c:18:13:trim_whitespace	6
-../handle/sf_content/sf_shell/shell_logic.c:25:6:shell_input_parse	9
+../handle/sf_content/sf_shell/shell_logic.c:16:6:shell_exec	15

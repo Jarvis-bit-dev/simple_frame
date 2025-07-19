@@ -6,33 +6,23 @@
  */
 #include <string.h>
 #include <stdio.h>
+#include "shell_logic.h"
 #include "var_register.h"
 #include "function_register.h"
 
+#define MAX_ARGC 8
+#define MAX_LINE_LEN 128
 
-#include <string.h>
-#include <stdio.h>
+void shell_exec(const char *line) {
+    char buffer[MAX_LINE_LEN];
+    strncpy(buffer, line, sizeof(buffer));
+    buffer[sizeof(buffer) - 1] = 0;
 
-#define CMD_MAX_ARGS 4
-
-static void trim_whitespace(char *str) {
-    char *end;
-    while (*str == ' ') str++;
-    end = str + strlen(str) - 1;
-    while (end > str && (*end == '\r' || *end == '\n' || *end == ' ')) *end-- = '\0';
-}
-
-void shell_input_parse(const char *input) {
-    char buffer[128];
-    strncpy(buffer, input, sizeof(buffer));
-    buffer[sizeof(buffer)-1] = '\0';
-    trim_whitespace(buffer);
-
-    char *argv[CMD_MAX_ARGS] = {0};
+    char *argv[MAX_ARGC] = {0};
     int argc = 0;
 
     char *token = strtok(buffer, " ");
-    while (token && argc < CMD_MAX_ARGS) {
+    while (token && argc < MAX_ARGC) {
         argv[argc++] = token;
         token = strtok(NULL, " ");
     }
@@ -40,12 +30,31 @@ void shell_input_parse(const char *input) {
     if (argc == 0) return;
 
     if (strcmp(argv[0], "get") == 0 && argc == 2) {
-        shell_get_var(argv[1]);
+        char output[64];
+        if (shell_get_variable(argv[1], output, sizeof(output)) == 0) {
+            printf("%s = %s\n", argv[1], output);
+        } else {
+            printf("Variable '%s' not found\n", argv[1]);
+        }
     } else if (strcmp(argv[0], "set") == 0 && argc == 3) {
-        shell_set_var(argv[1], argv[2]);
-    } else if (strcmp(argv[0], "list") == 0) {
-        shell_list_vars();
-    } else {
-        printf("Unknown command or wrong args\n");
+        if (shell_set_variable(argv[1], argv[2]) == 0) {
+            printf("Set %s = %s\n", argv[1], argv[2]);
+        } else {
+            printf("Set failed: variable '%s' not found\n", argv[1]);
+        }
+    } else if (strcmp(argv[0], "run") == 0 && argc >= 2) {
+        if (shell_run_function(argv[1], argc - 2, &argv[2]) != 0) {
+            printf("Function '%s' failed or not found\n", argv[1]);
+        }
+    }
+    else if (strcmp(argv[0], "varlist") == 0) {
+        shell_var_list();
+    } else if (strcmp(argv[0], "funclist") == 0) {
+        shell_func_list();
+    }
+
+    else {
+        printf("Unknown command: %s\n", argv[0]);
     }
 }
+
