@@ -1,0 +1,5 @@
+../handle/sf_content/sf_shell/var_register.c:21:21:find_var	3
+../handle/sf_content/sf_shell/var_register.c:15:5:shell_register_var	2
+../handle/sf_content/sf_shell/var_register.c:30:6:shell_set_var	6
+../handle/sf_content/sf_shell/var_register.c:55:6:shell_get_var	5
+../handle/sf_content/sf_shell/var_register.c:79:6:shell_list_vars	2

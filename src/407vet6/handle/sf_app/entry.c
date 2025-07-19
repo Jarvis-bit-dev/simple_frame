@@ -17,15 +17,13 @@ static void sf_test(void *arg){
 }
 
 
-int motor_speed = 1500;
-float motor_voltage = 24.5f;
-uint32_t system_flags = 0xAABBCCDD;
-uint8_t enabled = 1;
+int motor_speed = 0;
+float temperature = 36.5;
+int enabled = 1;
 static uint8_t sf_hardware_init(){
-
-	//使用串口1 实现  空闲中断接收的功能
-	 VAR_REGISTER(motor_speed, VAR_TYPE_INT);
-	    VAR_REGISTER(motor_voltage, VAR_TYPE_FLOAT);
+	REGISTER_VAR(motor_speed, VAR_TYPE_INT);
+	REGISTER_VAR(temperature, VAR_TYPE_FLOAT);
+	REGISTER_VAR(enabled, VAR_TYPE_BOOL);
 	return 0;
 }
 

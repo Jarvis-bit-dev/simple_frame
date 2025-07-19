@@ -117,13 +117,14 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  sf_loop();
 	  extern uint8_t g_flag_shell_received;
-	  extern void shell_process_input(char *input);
+	  extern void shell_input_parse(char *input);
 	  extern uint8_t RxProBuf[1024];
 	  if(1 == g_flag_shell_received)
 	  {
 		  //解析
 		  g_flag_shell_received = 0;
-		  shell_process_input(RxProBuf);
+		  shell_input_parse(RxProBuf);
+		  memset(RxProBuf,0,1024);
 	  }
   }
   /* USER CODE END 3 */

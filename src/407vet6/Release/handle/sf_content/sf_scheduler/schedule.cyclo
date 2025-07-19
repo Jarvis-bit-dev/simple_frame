@@ -1,0 +1,7 @@
+../handle/sf_content/sf_scheduler/schedule.c:13:6:task_system_init	2
+../handle/sf_content/sf_scheduler/schedule.c:24:6:task_system_tick_inc	1
+../handle/sf_content/sf_scheduler/schedule.c:28:10:task_system_get_tick	1
+../handle/sf_content/sf_scheduler/schedule.c:43:5:task_add	5
+../handle/sf_content/sf_scheduler/schedule.c:64:5:task_stop	6
+../handle/sf_content/sf_scheduler/schedule.c:83:6:task_execute	7
+../handle/sf_content/sf_scheduler/schedule.c:104:6:task_cleanup	5

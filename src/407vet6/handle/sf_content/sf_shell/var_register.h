@@ -8,37 +8,37 @@
 #ifndef SF_CONTENT_SF_SHELL_VAR_REGISTER_H_
 #define SF_CONTENT_SF_SHELL_VAR_REGISTER_H_
 
-
 #include <stdint.h>
 
-#define MAX_VAR_ENTRIES 64
-
+// 支持的变量类型
 typedef enum {
     VAR_TYPE_INT,
-    VAR_TYPE_UINT,
     VAR_TYPE_FLOAT,
+    VAR_TYPE_BOOL,
+    VAR_TYPE_UNKNOWN
 } var_type_t;
 
+// 变量信息结构体
 typedef struct {
     const char *name;
     void *addr;
     var_type_t type;
 } var_entry_t;
 
+#define MAX_VAR_NUM 64
 
+// 注册接口（内部使用宏包装）
+int shell_register_var(const char *name, void *addr, var_type_t type);
 
+// 变量操作接口
+void shell_set_var(const char *name, const char *value);
+void shell_get_var(const char *name);
+void shell_list_vars(void);
 
+// 注册宏定义（简化调用）
+#define REGISTER_VAR(var, type_enum) \
+    shell_register_var(#var, (void *)&var, type_enum)
 
-// 注册变量
-int register_var(const char *name, void *addr, var_type_t type);
-
-// 注册宏
-#define VAR_REGISTER(var_name, type_enum) \
-    register_var(#var_name, &var_name, type_enum)
-
-// shell解析函数
-void shell_handle_set_command(const char *input);  // 示例：set var1 123
-void shell_handle_get_command(const char *input);  // 示例：get var1
 
 
 #endif /* SF_CONTENT_SF_SHELL_VAR_REGISTER_H_ */
