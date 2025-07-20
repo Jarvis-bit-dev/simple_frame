@@ -14,6 +14,7 @@
 #include "shell_logic.h"
 #include "usart.h"
 #include "tim.h"
+#include "sf_log.h"
 /*************************************************************************************/
 
 
@@ -46,7 +47,11 @@ static uint8_t sf_hardware_init(){
 	HAL_TIM_Base_Start_IT(&htim6);
 	HAL_TIM_Base_Start_IT(&htim7);
 	uart_manager_register(&huart1, shell_uart_parser);
-
+	log_init(&huart1);
+	LOG_INFO("系统启动OK");
+	LOG_WARN("温度超限: %d", 100);
+	LOG_ERR("通信异常: code=%d", 2000);
+	log_shell_send("Hello shell %d, %s\n", 2024, "world");
 
 	return 0;
 }

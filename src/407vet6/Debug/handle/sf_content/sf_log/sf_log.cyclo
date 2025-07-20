@@ -1,0 +1,8 @@
+../handle/sf_content/sf_log/sf_log.c:34:17:log_buf_free	2
+../handle/sf_content/sf_log/sf_log.c:41:13:log_buf_write	3
+../handle/sf_content/sf_log/sf_log.c:53:13:log_start_tx	5
+../handle/sf_content/sf_log/sf_log.c:67:6:log_uart_dma_tx_cplt_callback	1
+../handle/sf_content/sf_log/sf_log.c:75:6:log_init	1
+../handle/sf_content/sf_log/sf_log.c:82:6:log_set_level	1
+../handle/sf_content/sf_log/sf_log.c:86:6:log_output	5
+../handle/sf_content/sf_log/sf_log.c:106:6:log_shell_send	2

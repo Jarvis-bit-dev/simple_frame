@@ -25,6 +25,7 @@
 #include "schedule.h"
 #include "entry.h"
 #include "sf_protocol.h"
+#include "sf_log.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -289,5 +290,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (htim == (&htim7))
     {
     }
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart == &huart1) log_uart_dma_tx_cplt_callback();
 }
 /* USER CODE END 1 */
