@@ -24,11 +24,14 @@ int counter = 0;
 float voltage = 3.3f;
 char name[32] = "STM32";
 
+typedef struct { int age; float score; } student_t;
+student_t stu = {18, 90.0};
+
 int test_func(int argc, char **argv) {
     printf("test_func called with %d args\n", argc);
     return 0;
 }
-
+int arr[5] = {1,2,3,4,5};
 
 int sensor_check(void *arg)    { return (*(int*)arg > 100); }
 void sensor_action(void *arg)  { LOG_WARN("Sensor报警: %d", *(int*)arg); }
@@ -76,6 +79,10 @@ static uint8_t sf_software_init(){
 	SHELL_VAR_REGISTER(voltage, VAR_TYPE_FLOAT);
 	SHELL_VAR_REGISTER(name, VAR_TYPE_STRING);
 	SHELL_VAR_REGISTER(sensor_val, VAR_TYPE_INT);
+	SHELL_VAR_REGISTER(stu.age, VAR_TYPE_INT);
+	SHELL_VAR_REGISTER(stu.score, VAR_TYPE_FLOAT);
+	shell_register_array("arr", arr, VAR_TYPE_INT, sizeof(int), 5);
+
 	SHELL_FUNC_REGISTER(test_func);
 
 

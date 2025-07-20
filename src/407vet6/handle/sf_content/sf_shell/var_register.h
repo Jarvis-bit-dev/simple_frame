@@ -15,12 +15,17 @@ typedef enum {
     VAR_TYPE_FLOAT,
     VAR_TYPE_STRING,
     VAR_TYPE_BOOL,
+	VAR_TYPE_ARRAY,
 } var_type_t;
 
 typedef struct {
     const char *name;
     void *addr;
     var_type_t type;
+    // array only
+    var_type_t elem_type;
+    int elem_size;
+    int elem_count;
 } var_entry_t;
 
 void shell_register_variable(const char *name, void *addr, var_type_t type);
