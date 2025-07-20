@@ -17,6 +17,7 @@
 #include "shell_logic.h"
 #include "schedule.h"
 #include "key.h"
+#include "configure.h"
 /*************************************************************************************/
 
 int counter = 0;
@@ -115,6 +116,22 @@ static uint8_t sf_hardware_init() {
 	return 0;
 }
 
+
+
+static void print_version_info(void)
+{
+    printf("\r\n================= VERSION INFO =================\r\n");
+    printf(" Project      : %s\r\n", PROJECT_NAME);
+    printf(" Author       : %s\r\n", PROJECT_AUTHOR);
+    printf(" Board        : %s\r\n", BOARD_NAME);
+    printf(" Software Ver : %s\r\n", software_version);
+    printf(" Frame   Ver  : %s\r\n", SIMPLE_FRAME_VERSION);
+    printf(" Bootloader   : %s\r\n", BOOT_VERSION);
+    printf(" Build Type   : %s\r\n", build_type);
+    printf(" Build Date   : %s %s\r\n", build_date, build_time);
+    // printf(" Git Hash     : %s\r\n", GIT_HASH);
+    printf("================================================\r\n");
+}
 /**
  * @brief 初始化软件相关资源，包括变量、函数注册以及任务系统启动。
  *
@@ -122,6 +139,7 @@ static uint8_t sf_hardware_init() {
  */
 static uint8_t sf_software_init() {
 
+	print_version_info();
 	//shell 模块测试
 	SHELL_VAR_REGISTER(counter, VAR_TYPE_INT);
 	SHELL_VAR_REGISTER(voltage, VAR_TYPE_FLOAT);
