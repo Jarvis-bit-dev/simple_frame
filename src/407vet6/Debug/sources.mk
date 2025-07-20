@@ -33,5 +33,6 @@ handle/sf_content/sf_log \
 handle/sf_content/sf_protocol \
 handle/sf_content/sf_scheduler \
 handle/sf_content/sf_shell \
+handle/sf_device/key \
 handle/test \
 

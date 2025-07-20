@@ -120,8 +120,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  sf_loop();
-	  error_poll();
-
   }
   /* USER CODE END 3 */
 }

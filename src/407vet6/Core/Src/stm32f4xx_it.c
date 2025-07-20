@@ -284,15 +284,31 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	//1S
     if (htim == (&htim6))
     {
-  	  task_execute(TASK_REALTIME);
     }
     //1ms
     if (htim == (&htim7))
     {
+    	task_execute(TASK_REALTIME);
     }
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart == &huart1) log_uart_dma_tx_cplt_callback();
+}
+
+// 添加EXTI1中断处理函数
+void EXTI1_IRQHandler(void)
+{
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+}
+
+// 添加GPIO外部中断回调函数
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == GPIO_PIN_1)
+    {
+        // 按键中断触发，可以在这里添加调试信息
+        // 或者直接调用按键处理函数
+    }
 }
 /* USER CODE END 1 */

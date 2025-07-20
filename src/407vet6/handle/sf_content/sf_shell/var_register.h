@@ -29,6 +29,8 @@ typedef struct {
 } var_entry_t;
 
 void shell_register_variable(const char *name, void *addr, var_type_t type);
+void shell_register_array(const char *name, void *addr, var_type_t elem_type,
+		int elem_size, int elem_count);
 int shell_get_variable(const char *name, char *output, int max_len);
 int shell_set_variable(const char *name, const char *value_str);
 void shell_var_list(void);

@@ -9,7 +9,7 @@
 #define SF_APP_ENTRY_H_
 typedef enum {
 	TASK_REALTIME,
-    TASK_SENSOR = 1,           // 传感器采集与处理任务（如温度、加速度、距离）
+    TASK_SENSOR,           // 传感器采集与处理任务（如温度、加速度、距离）
     TASK_COMM_PROTOCOL,        // 协议处理任务（如Modbus、CAN、BLE协议帧解析）
     TASK_COMM_IO,              // 通信IO任务（如串口/网络收发、驱动）
     TASK_CONTROL_LOOP,         // 控制任务（如PID、电机控制、闭环调节）

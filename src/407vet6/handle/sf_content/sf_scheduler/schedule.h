@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 #define MAX_TASK_NUM      64
-#define MAX_TASK_LISTS    4
+#define MAX_TASK_LISTS    15
 #define TASK_FOREVER 0xFFFFFFFF
 typedef void (*task_func_t)(void *arg);
 

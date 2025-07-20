@@ -33,4 +33,5 @@
 "./handle/sf_content/sf_shell/function_register.o"
 "./handle/sf_content/sf_shell/shell_logic.o"
 "./handle/sf_content/sf_shell/var_register.o"
+"./handle/sf_device/key/key.o"
 "./handle/test/test.o"

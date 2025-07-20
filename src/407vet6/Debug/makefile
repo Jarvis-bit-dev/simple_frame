@@ -10,6 +10,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include handle/test/subdir.mk
+-include handle/sf_device/key/subdir.mk
 -include handle/sf_content/sf_shell/subdir.mk
 -include handle/sf_content/sf_scheduler/subdir.mk
 -include handle/sf_content/sf_protocol/subdir.mk
