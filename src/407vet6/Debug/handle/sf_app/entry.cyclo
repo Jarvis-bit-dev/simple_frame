@@ -1,7 +1,10 @@
-../handle/sf_app/entry.c:25:5:test_func	1
-../handle/sf_app/entry.c:31:6:shell_uart_parser	1
-../handle/sf_app/entry.c:46:16:sf_hardware_init	1
-../handle/sf_app/entry.c:65:16:sf_software_init	1
-../handle/sf_app/entry.c:87:6:sf_entry	1
-../handle/sf_app/entry.c:98:13:sf_run	2
-../handle/sf_app/entry.c:111:6:sf_loop	1
+../handle/sf_app/entry.c:27:5:test_func	1
+../handle/sf_app/entry.c:33:5:sensor_check	1
+../handle/sf_app/entry.c:34:6:sensor_action	1
+../handle/sf_app/entry.c:35:6:sensor_recover	1
+../handle/sf_app/entry.c:42:6:shell_uart_parser	1
+../handle/sf_app/entry.c:53:16:sf_hardware_init	1
+../handle/sf_app/entry.c:73:16:sf_software_init	1
+../handle/sf_app/entry.c:96:6:sf_entry	1
+../handle/sf_app/entry.c:107:13:sf_run	2
+../handle/sf_app/entry.c:120:6:sf_loop	1

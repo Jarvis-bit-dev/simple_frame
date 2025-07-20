@@ -29,6 +29,8 @@
 #include "entry.h"
 #include "string.h"
 #include "sf_protocol.h"
+#include "sf_err.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -118,7 +120,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  sf_loop();
-	  //uart_manager_poll();
+	  error_poll();
+
   }
   /* USER CODE END 3 */
 }

@@ -14,6 +14,7 @@ RM := rm -rf
 -include handle/sf_content/sf_scheduler/subdir.mk
 -include handle/sf_content/sf_protocol/subdir.mk
 -include handle/sf_content/sf_log/subdir.mk
+-include handle/sf_content/sf_err/subdir.mk
 -include handle/sf_app/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk

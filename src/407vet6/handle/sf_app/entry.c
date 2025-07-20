@@ -5,16 +5,18 @@
  *      Author: Jarvis
  */
 #include "entry.h"
-#include "schedule.h"
 #include "stdio.h"
 #include <stdarg.h>
 #include "var_register.h"
 #include "function_register.h"
-#include "sf_protocol.h"
-#include "shell_logic.h"
 #include "usart.h"
 #include "tim.h"
 #include "sf_log.h"
+#include "sf_err.h"
+#include "sf_protocol.h"
+#include "shell_logic.h"
+#include "schedule.h"
+
 /*************************************************************************************/
 
 
@@ -28,15 +30,20 @@ int test_func(int argc, char **argv) {
 }
 
 
+int sensor_check(void *arg)    { return (*(int*)arg > 100); }
+void sensor_action(void *arg)  { LOG_WARN("Sensor报警: %d", *(int*)arg); }
+void sensor_recover(void *arg) { LOG_INFO("Sensor恢复: %d", *(int*)arg); }
+
+int sensor_val = 0;
+
+/*************************************************************************************/
+
+
 void shell_uart_parser(const uint8_t *data, uint16_t len) {
 	shell_exec((const char *)data);
 	uart_manager_clear(&huart1);
 
 }
-/*************************************************************************************/
-
-
-
 
 /**
  * @brief 初始化硬件相关资源，如串口解析器注册等。
@@ -52,6 +59,7 @@ static uint8_t sf_hardware_init(){
 	LOG_WARN("温度超限: %d", 100);
 	LOG_ERR("通信异常: code=%d", 2000);
 	log_shell_send("Hello shell %d, %s\n", 2024, "world");
+	error_register("sensor_warn", ERROR_LEVEL_WARNING, sensor_check, sensor_action, sensor_recover, &sensor_val, 3);
 
 	return 0;
 }
@@ -67,6 +75,7 @@ static uint8_t sf_software_init(){
 	SHELL_VAR_REGISTER(counter, VAR_TYPE_INT);
 	SHELL_VAR_REGISTER(voltage, VAR_TYPE_FLOAT);
 	SHELL_VAR_REGISTER(name, VAR_TYPE_STRING);
+	SHELL_VAR_REGISTER(sensor_val, VAR_TYPE_INT);
 	SHELL_FUNC_REGISTER(test_func);
 
 
