@@ -2,5 +2,5 @@
 
 A framework to assist rapid development
 
-test thinkbook
+test thinkbook test sourcetree
 
