@@ -61,9 +61,19 @@ void key1_on_double(key_t *key)  { /* 双击处理 */
 	LOG_INFO("按键1双击事件触发！");
 }
 
+void key1_on_long(key_t *key)  { /* 双击处理 */
+	LOG_INFO("按键1长按事件触发！");
+}
+
+void key1_on_repeat(key_t *key)  { /* 双击处理 */
+	LOG_INFO("+++");
+}
+
 const key_event_handler_t key1_handlers = {
     .on_click = key1_on_click,
     .on_double = key1_on_double,
+	.on_long = key1_on_long,
+	.on_repeat = key1_on_repeat,
 };
 
 
@@ -91,6 +101,16 @@ void shell_uart_parser(const uint8_t *data, uint16_t len) {
 	uart_manager_clear(&huart1);
 
 }
+
+//2s的执行周期
+void plus_singal_handle()
+{
+	extern volatile uint32_t g_plus_index;
+	printf("signal is %d HZ\r\n",g_plus_index/2);
+	g_plus_index = 0;
+}
+
+
 
 /**
  * @brief 初始化硬件相关资源，如串口解析器注册等。
@@ -161,6 +181,12 @@ static uint8_t sf_software_init() {
 	//按键扫描
 	task_add(TASK_REALTIME, (task_func_t) key_app,
 		NULL, 0, 5,
+		TASK_FOREVER);
+
+
+	//频率计算
+	task_add(TASK_REALTIME, (task_func_t) plus_singal_handle,
+		NULL, 0, 2000,
 		TASK_FOREVER);
 	//按键执行
 	task_add(TASK_USER_INTERFACE, (task_func_t) key_evt_dispatch,

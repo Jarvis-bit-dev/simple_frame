@@ -2,7 +2,7 @@
 ../handle/sf_device/key/key.c:28:5:key_evt_pop	2
 ../handle/sf_device/key/key.c:34:6:key_evt_enable	1
 ../handle/sf_device/key/key.c:36:5:key_register	2
-../handle/sf_device/key/key.c:48:6:key_unregister	3
-../handle/sf_device/key/key.c:66:13:key_state_machine	22
-../handle/sf_device/key/key.c:158:6:key_scan_all	11
-../handle/sf_device/key/key.c:191:6:key_evt_dispatch	19
+../handle/sf_device/key/key.c:49:6:key_unregister	3
+../handle/sf_device/key/key.c:67:13:key_state_machine	23
+../handle/sf_device/key/key.c:165:6:key_scan_all	11
+../handle/sf_device/key/key.c:198:6:key_evt_dispatch	19

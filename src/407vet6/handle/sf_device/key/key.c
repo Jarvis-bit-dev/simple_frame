@@ -40,6 +40,7 @@ int key_register(key_t *key) {
     key->press_tick = 0;
     key->last_release_tick = 0;
     key->click_count = 0;
+    key->was_long_pressed = 0;
     key->next = key_head;
     key_head = key;
     key_count++;
@@ -61,7 +62,7 @@ void key_unregister(key_t *key) {
 #define DEBOUNCE_MS      20   // 按下消抖时长(ms)
 #define CLICK_INTERVAL   250  // 双击最大间隔(ms)
 #define LONG_PRESS_MS    1000 // 长按时长(ms)
-#define REPEAT_MS        400  // 连发周期(ms)
+#define REPEAT_MS        200  // 连发周期(ms)
 
 static void key_state_machine(key_t *key, uint16_t tick_ms, uint16_t now_tick)
 {
@@ -81,6 +82,7 @@ static void key_state_machine(key_t *key, uint16_t tick_ms, uint16_t now_tick)
             if (key->deb_cnt >= DEBOUNCE_MS) {
                 key->state = KEY_STATE_PRESSED;
                 key->press_tick = 0;
+                key->was_long_pressed = 0;
                 key_evt_push(key->id, KEY_EVENT_DOWN);
             }
         } else {
@@ -92,6 +94,7 @@ static void key_state_machine(key_t *key, uint16_t tick_ms, uint16_t now_tick)
             key->press_tick += tick_ms;
             if (key->press_tick == LONG_PRESS_MS) {
                 key_evt_push(key->id, KEY_EVENT_LONG);
+                key->was_long_pressed = 1;
                 key->state = KEY_STATE_LONG;
                 key->press_tick = 0;
             }
@@ -113,21 +116,25 @@ static void key_state_machine(key_t *key, uint16_t tick_ms, uint16_t now_tick)
         }
         break;
     case KEY_STATE_WAIT_RELEASE:
-        if (!is_down) {
-            key->deb_cnt += tick_ms;
-            if (key->deb_cnt >= DEBOUNCE_MS) {
-                // 抬起确认
-                key_evt_push(key->id, KEY_EVENT_UP);
-                // 进入等待单击确认状态（而不是直接单击）
-                key->state = KEY_STATE_WAIT_CLICK;
-                key->press_tick = 0;
-            }
-        } else {
-            // 被再次按下，回到消抖状态
-            key->state = KEY_STATE_DEBOUNCE;
-            key->deb_cnt = 0;
-        }
-        break;
+    	 if (!is_down) {
+    	            key->deb_cnt += tick_ms;
+    	            if (key->deb_cnt >= DEBOUNCE_MS) {
+    	                key_evt_push(key->id, KEY_EVENT_UP);
+
+    	                if (key->was_long_pressed) {
+    	                    key->state = KEY_STATE_IDLE; // 长按后直接返回，不进入CLICK判断
+    	                } else {
+    	                    key->state = KEY_STATE_WAIT_CLICK;
+    	                    key->press_tick = 0;
+    	                }
+
+    	                key->was_long_pressed = 0; // 清除标志
+    	            }
+    	        } else {
+    	            key->state = KEY_STATE_DEBOUNCE;
+    	            key->deb_cnt = 0;
+    	        }
+    	        break;
     case KEY_STATE_WAIT_CLICK:
         key->press_tick += tick_ms;
         if (is_down) {

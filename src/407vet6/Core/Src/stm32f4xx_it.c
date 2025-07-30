@@ -207,6 +207,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line1 interrupt.
+  */
+void EXTI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI1_IRQn 0 */
+
+  /* USER CODE END EXTI1_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+  /* USER CODE BEGIN EXTI1_IRQn 1 */
+
+  /* USER CODE END EXTI1_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
@@ -221,6 +235,20 @@ void USART1_IRQHandler(void)
 	  uart_manager_idle_callback(&huart1);
   }
   /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /**
@@ -296,19 +324,18 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart == &huart1) log_uart_dma_tx_cplt_callback();
 }
 
-// 添加EXTI1中断处理函数
-void EXTI1_IRQHandler(void)
-{
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
-}
+
 
 // 添加GPIO外部中断回调函数
+volatile uint32_t g_plus_index = 0;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     if (GPIO_Pin == GPIO_PIN_1)
     {
-        // 按键中断触发，可以在这里添加调试信息
-        // 或者直接调用按键处理函数
+
+    }else if(GPIO_Pin == GPIO_PIN_14)
+    {
+    	g_plus_index++;
     }
 }
 /* USER CODE END 1 */

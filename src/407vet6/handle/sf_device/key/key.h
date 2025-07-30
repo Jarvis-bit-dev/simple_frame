@@ -59,6 +59,7 @@ typedef struct key_s {
     uint16_t       press_tick;
     uint16_t       last_release_tick;
     uint8_t        click_count;
+    uint8_t        was_long_pressed;
     struct key_s  *next;
 } key_t;
 
